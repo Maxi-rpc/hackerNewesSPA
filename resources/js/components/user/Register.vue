@@ -9,9 +9,9 @@
                     <div
                         class="alert alert-warning alert-dismissible fade show"
                         role="alert"
-                        v-if="message != ''"
+                        v-if="errors != ''"
                     >
-                        <strong>{{ message }}</strong>
+                        <strong>{{ errors }}</strong>
                         <button
                             type="button"
                             class="close"
@@ -21,14 +21,14 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form @submit.prevent="registrar" v-csrf-token>
+                    <form @submit.prevent="registrar">
                         <div class="form-group">
                             <label>Email</label>
                             <input
                                 type="email"
                                 class="form-control"
                                 id="email"
-                                v-model="user.email"
+                                v-model="form.email"
                             />
                         </div>
                         <div class="form-group">
@@ -37,7 +37,7 @@
                                 type="text"
                                 class="form-control"
                                 id="name"
-                                v-model="user.name"
+                                v-model="form.name"
                             />
                         </div>
                         <div class="form-group">
@@ -46,7 +46,7 @@
                                 type="password"
                                 class="form-control"
                                 id="password"
-                                v-model="user.password"
+                                v-model="form.password"
                             />
                         </div>
 
@@ -56,7 +56,7 @@
                                 type="password"
                                 class="form-control"
                                 id="password_confirmation"
-                                v-model="user.password_confirmation"
+                                v-model="form.password_confirmation"
                             />
                         </div>
 
@@ -74,15 +74,26 @@ export default {
     name: "register",
     data() {
         return {
-            user: {
+            form: {
                 name: "",
                 email: "",
                 password: "",
                 password_confirmation: ""
             },
-            message: ""
+            errors: []
         };
     },
-    methods: {}
+    methods: {
+        registrar() {
+            axios
+                .post("/api/register", this.form)
+                .then(() => {
+                    console.log("saved");
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                });
+        }
+    }
 };
 </script>

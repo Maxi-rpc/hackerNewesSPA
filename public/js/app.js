@@ -2137,15 +2137,26 @@ __webpack_require__.r(__webpack_exports__);
   name: "login",
   data: function data() {
     return {
-      user: {
+      form: {
         email: "",
         password: ""
       },
-      message: ""
+      errors: []
     };
   },
-  mounted: function mounted() {},
-  methods: {}
+  methods: {
+    login: function login() {
+      var _this = this;
+
+      axios.post("/api/login", this.form).then(function () {
+        _this.$router.push({
+          name: "home"
+        });
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2234,16 +2245,26 @@ __webpack_require__.r(__webpack_exports__);
   name: "register",
   data: function data() {
     return {
-      user: {
+      form: {
         name: "",
         email: "",
         password: "",
         password_confirmation: ""
       },
-      message: ""
+      errors: []
     };
   },
-  methods: {}
+  methods: {
+    registrar: function registrar() {
+      var _this = this;
+
+      axios.post("/api/register", this.form).then(function () {
+        console.log("saved");
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -38192,7 +38213,7 @@ var render = function() {
             _vm._v("Iniciar Sesion")
           ]),
           _vm._v(" "),
-          _vm.message != ""
+          _vm.errors != ""
             ? _c(
                 "div",
                 {
@@ -38201,7 +38222,7 @@ var render = function() {
                   attrs: { role: "alert" }
                 },
                 [
-                  _c("strong", [_vm._v(_vm._s(_vm.message))]),
+                  _c("strong", [_vm._v(_vm._s(_vm.errors))]),
                   _vm._v(" "),
                   _vm._m(0)
                 ]
@@ -38227,19 +38248,19 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.user.email,
-                      expression: "user.email"
+                      value: _vm.form.email,
+                      expression: "form.email"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "email", name: "email" },
-                  domProps: { value: _vm.user.email },
+                  domProps: { value: _vm.form.email },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.user, "email", $event.target.value)
+                      _vm.$set(_vm.form, "email", $event.target.value)
                     }
                   }
                 })
@@ -38253,19 +38274,19 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.user.password,
-                      expression: "user.password"
+                      value: _vm.form.password,
+                      expression: "form.password"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "password", name: "password" },
-                  domProps: { value: _vm.user.password },
+                  domProps: { value: _vm.form.password },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.user, "password", $event.target.value)
+                      _vm.$set(_vm.form, "password", $event.target.value)
                     }
                   }
                 })
@@ -38345,7 +38366,7 @@ var render = function() {
             _vm._v("\n                    Registrar Usuario\n                ")
           ]),
           _vm._v(" "),
-          _vm.message != ""
+          _vm.errors != ""
             ? _c(
                 "div",
                 {
@@ -38354,7 +38375,7 @@ var render = function() {
                   attrs: { role: "alert" }
                 },
                 [
-                  _c("strong", [_vm._v(_vm._s(_vm.message))]),
+                  _c("strong", [_vm._v(_vm._s(_vm.errors))]),
                   _vm._v(" "),
                   _vm._m(0)
                 ]
@@ -38364,7 +38385,6 @@ var render = function() {
           _c(
             "form",
             {
-              directives: [{ name: "csrf-token", rawName: "v-csrf-token" }],
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -38381,19 +38401,19 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.user.email,
-                      expression: "user.email"
+                      value: _vm.form.email,
+                      expression: "form.email"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "email", id: "email" },
-                  domProps: { value: _vm.user.email },
+                  domProps: { value: _vm.form.email },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.user, "email", $event.target.value)
+                      _vm.$set(_vm.form, "email", $event.target.value)
                     }
                   }
                 })
@@ -38407,19 +38427,19 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.user.name,
-                      expression: "user.name"
+                      value: _vm.form.name,
+                      expression: "form.name"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "text", id: "name" },
-                  domProps: { value: _vm.user.name },
+                  domProps: { value: _vm.form.name },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.user, "name", $event.target.value)
+                      _vm.$set(_vm.form, "name", $event.target.value)
                     }
                   }
                 })
@@ -38433,19 +38453,19 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.user.password,
-                      expression: "user.password"
+                      value: _vm.form.password,
+                      expression: "form.password"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "password", id: "password" },
-                  domProps: { value: _vm.user.password },
+                  domProps: { value: _vm.form.password },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.user, "password", $event.target.value)
+                      _vm.$set(_vm.form, "password", $event.target.value)
                     }
                   }
                 })
@@ -38459,20 +38479,20 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.user.password_confirmation,
-                      expression: "user.password_confirmation"
+                      value: _vm.form.password_confirmation,
+                      expression: "form.password_confirmation"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "password", id: "password_confirmation" },
-                  domProps: { value: _vm.user.password_confirmation },
+                  domProps: { value: _vm.form.password_confirmation },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
                       _vm.$set(
-                        _vm.user,
+                        _vm.form,
                         "password_confirmation",
                         $event.target.value
                       )

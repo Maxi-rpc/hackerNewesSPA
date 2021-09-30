@@ -7,9 +7,9 @@
                     <div
                         class="alert alert-warning alert-dismissible fade show"
                         role="alert"
-                        v-if="message != ''"
+                        v-if="errors != ''"
                     >
-                        <strong>{{ message }}</strong>
+                        <strong>{{ errors }}</strong>
                         <button
                             type="button"
                             class="close"
@@ -26,7 +26,7 @@
                                 type="email"
                                 class="form-control"
                                 name="email"
-                                v-model="user.email"
+                                v-model="form.email"
                             />
                         </div>
                         <div class="form-group">
@@ -35,7 +35,7 @@
                                 type="password"
                                 class="form-control"
                                 name="password"
-                                v-model="user.password"
+                                v-model="form.password"
                             />
                         </div>
 
@@ -56,14 +56,24 @@ export default {
     name: "login",
     data() {
         return {
-            user: {
+            form: {
                 email: "",
                 password: ""
             },
-            message: ""
+            errors: []
         };
     },
-    mounted() {},
-    methods: {}
+    methods: {
+        login() {
+            axios
+                .post("/api/login", this.form)
+                .then(() => {
+                    this.$router.push({ name: "home" });
+                })
+                .catch(error => {
+                    this.errors = error.response.data.errors;
+                });
+        }
+    }
 };
 </script>
