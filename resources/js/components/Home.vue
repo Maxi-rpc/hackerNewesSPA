@@ -77,9 +77,16 @@ export default {
         },
         guardar(noticia) {
             axios
-                .post("api/favoritos", noticia)
-                .then()
-                .catch();
+                .post("api/favoritos", {
+                    user: this.user,
+                    noticia: noticia
+                })
+                .then(response => {
+                    this.message = response.data;
+                })
+                .catch(error => {
+                    this.message = error;
+                });
         }
     }
 };

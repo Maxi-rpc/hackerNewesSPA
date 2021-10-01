@@ -2051,7 +2051,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     guardar: function guardar(noticia) {
-      axios.post("api/favoritos", noticia).then()["catch"]();
+      var _this4 = this;
+
+      axios.post("api/favoritos", {
+        user: this.user,
+        noticia: noticia
+      }).then(function (response) {
+        _this4.message = response.data;
+      })["catch"](function (error) {
+        _this4.message = error;
+      });
     }
   }
 });

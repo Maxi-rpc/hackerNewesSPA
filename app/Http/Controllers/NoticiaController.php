@@ -43,10 +43,6 @@ class NoticiaController extends Controller
             }
         }
 
-        $data = array(
-            'listaNoticia'=> $listaNoticias
-        );
-
         return response()->json($listaNoticias,200);
     }
 }
