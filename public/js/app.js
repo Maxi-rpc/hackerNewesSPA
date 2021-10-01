@@ -2028,8 +2028,8 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get("/api/user").then(function (res) {
       _this.user = res.data;
-      _this.message = _this.user;
     });
+    this.listarNoticias();
   },
   methods: {
     logout: function logout() {
@@ -2040,6 +2040,18 @@ __webpack_require__.r(__webpack_exports__);
           name: "login"
         });
       });
+    },
+    listarNoticias: function listarNoticias() {
+      var _this3 = this;
+
+      axios.get("api/noticias").then(function (response) {
+        _this3.noticias = response.data;
+      })["catch"](function (error) {
+        _this3.message = error;
+      });
+    },
+    guardar: function guardar(noticia) {
+      axios.post("api/favoritos", noticia).then()["catch"]();
     }
   }
 });

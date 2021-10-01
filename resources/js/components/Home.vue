@@ -56,14 +56,30 @@ export default {
     mounted() {
         axios.get("/api/user").then(res => {
             this.user = res.data;
-            this.message = this.user;
         });
+        this.listarNoticias();
     },
     methods: {
         logout() {
             axios.post("/api/logout").then(() => {
                 this.$router.push({ name: "login" });
             });
+        },
+        listarNoticias() {
+            axios
+                .get("api/noticias")
+                .then(response => {
+                    this.noticias = response.data;
+                })
+                .catch(error => {
+                    this.message = error;
+                });
+        },
+        guardar(noticia) {
+            axios
+                .post("api/favoritos", noticia)
+                .then()
+                .catch();
         }
     }
 };
