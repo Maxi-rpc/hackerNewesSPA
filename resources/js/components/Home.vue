@@ -77,7 +77,7 @@ export default {
         },
         guardar(noticia) {
             axios
-                .post("api/favoritos", {
+                .post("api/favorito", {
                     user: this.user,
                     noticia: noticia
                 })

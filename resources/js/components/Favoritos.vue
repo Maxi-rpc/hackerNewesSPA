@@ -2,6 +2,9 @@
     <div class="row">
         <div class="col-12 text-center">
             <h1 class="font-weight-bold">Favoritos</h1>
+            <p>
+                Listado de favoritos de <span>{{ this.user.email }}</span>
+            </p>
         </div>
 
         <div class="col-12" v-if="message != ''">
@@ -45,7 +48,24 @@ export default {
             user: null
         };
     },
-    mounted() {},
-    methods: {}
+    mounted() {
+        axios.get("/api/user").then(res => {
+            this.user = res.data;
+        });
+        this.listar();
+    },
+    methods: {
+        async listar() {
+            await axios
+                .get("api/favoritos")
+                .then(response => {
+                    this.favoritos = response.data;
+                    console.log(response);
+                })
+                .catch(error => {
+                    this.message = error;
+                });
+        }
+    }
 };
 </script>
