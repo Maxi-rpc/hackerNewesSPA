@@ -2,6 +2,9 @@
     <div class="row">
         <div class="col-12 text-center">
             <h1 class="font-weight-bold">Favoritos</h1>
+            <button @click.prevent="logout()" class="btn btn-primary">
+                Logout
+            </button>
             <p>
                 Listado de favoritos de <span>{{ this.user.email }}</span>
             </p>
@@ -28,9 +31,15 @@
             <div class="card card-dark">
                 <div class="card-body">
                     <div class="card-title">{{ favorito.title }}</div>
+                    <div class="card-text">
+                        {{ favorito.url }}
+                    </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-sm btn-primary">
+                    <button
+                        @click.prevent="eliminar(favorito)"
+                        class="btn btn-sm btn-primary"
+                    >
                         Eliminar de favorito
                     </button>
                 </div>
@@ -65,6 +74,25 @@ export default {
                 .catch(error => {
                     this.message = error;
                 });
+        },
+        eliminar(favorito) {
+            axios
+                .post("api/favoritoEliminar", {
+                    user: this.user,
+                    favorito: favorito
+                })
+                .then(response => {
+                    this.message = response.data.message;
+                    this.listar();
+                })
+                .catch(error => {
+                    this.message = error;
+                });
+        },
+        logout() {
+            axios.post("/api/logout").then(() => {
+                this.$router.push({ name: "login" });
+            });
         }
     }
 };

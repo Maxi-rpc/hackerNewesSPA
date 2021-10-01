@@ -1968,6 +1968,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "favorito",
   data: function data() {
@@ -2009,6 +2018,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    eliminar: function eliminar(favorito) {
+      var _this3 = this;
+
+      axios.post("api/favoritoEliminar", {
+        user: this.user,
+        favorito: favorito
+      }).then(function (response) {
+        _this3.message = response.data.message;
+
+        _this3.listar();
+      })["catch"](function (error) {
+        _this3.message = error;
+      });
+    },
+    logout: function logout() {
+      var _this4 = this;
+
+      axios.post("/api/logout").then(function () {
+        _this4.$router.push({
+          name: "login"
+        });
+      });
     }
   }
 });
@@ -38800,6 +38832,20 @@ var render = function() {
       _c("div", { staticClass: "col-12 text-center" }, [
         _c("h1", { staticClass: "font-weight-bold" }, [_vm._v("Favoritos")]),
         _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.logout()
+              }
+            }
+          },
+          [_vm._v("\n            Logout\n        ")]
+        ),
+        _vm._v(" "),
         _c("p", [
           _vm._v("\n            Listado de favoritos de "),
           _c("span", [_vm._v(_vm._s(this.user.email))])
@@ -38829,10 +38875,36 @@ var render = function() {
             _c("div", { staticClass: "card-body" }, [
               _c("div", { staticClass: "card-title" }, [
                 _vm._v(_vm._s(favorito.title))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-text" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(favorito.url) +
+                    "\n                "
+                )
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1, true)
+            _c("div", { staticClass: "card-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-sm btn-primary",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.eliminar(favorito)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                    Eliminar de favorito\n                "
+                  )
+                ]
+              )
+            ])
           ])
         ])
       })
@@ -38857,16 +38929,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-        _vm._v("\n                    Eliminar de favorito\n                ")
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -38896,21 +38958,22 @@ var render = function() {
     [
       _c("div", { staticClass: "col-12 text-center" }, [
         _c("h1", { staticClass: "font-weight-bold" }, [
-          _vm._v("\n            Noticias\n            "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.logout()
-                }
+          _vm._v("\n            Noticias\n        ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.logout()
               }
-            },
-            [_vm._v("\n                Logout\n            ")]
-          )
-        ])
+            }
+          },
+          [_vm._v("\n            Logout\n        ")]
+        )
       ]),
       _vm._v(" "),
       _vm.message != ""

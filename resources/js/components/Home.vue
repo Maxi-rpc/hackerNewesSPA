@@ -3,10 +3,10 @@
         <div class="col-12 text-center">
             <h1 class="font-weight-bold">
                 Noticias
-                <button @click.prevent="logout()" class="btn btn-primary">
-                    Logout
-                </button>
             </h1>
+            <button @click.prevent="logout()" class="btn btn-primary">
+                Logout
+            </button>
         </div>
 
         <div class="col-12" v-if="message != ''">

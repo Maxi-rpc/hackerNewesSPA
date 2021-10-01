@@ -28,3 +28,4 @@ Route::post('logout', 'LoginController@logout');
 Route::get('noticias', 'NoticiaController@noticias');
 Route::post('favorito', 'FavoritoController@guardar');
 Route::get('favoritos', 'FavoritoController@favoritos');
+Route::post('favoritoEliminar', 'FavoritoController@eliminar');
