@@ -20,12 +20,32 @@ export default {
         {
             name: "home",
             path: "/",
-            component: Home
+            component: Home,
+            beforeEnter: (to, form, next) => {
+                axios
+                    .get("/api/athenticated")
+                    .then(() => {
+                        next();
+                    })
+                    .catch(() => {
+                        return next({ name: "login" });
+                    });
+            }
         },
         {
             name: "favoritos",
             path: "/favoritos",
-            component: Favoritos
+            component: Favoritos,
+            beforeEnter: (to, form, next) => {
+                axios
+                    .get("/api/athenticated")
+                    .then(() => {
+                        next();
+                    })
+                    .catch(() => {
+                        return next({ name: "login" });
+                    });
+            }
         },
         {
             name: "login",

@@ -32,19 +32,11 @@
                         >Noticias</router-link
                     >
                 </li>
-                <li class="nav-item" >
+                <li class="nav-item" v-if='!this.user'>
                     <router-link
-                        
                         to="/login"
                         class="nav-link"
                         >Login</router-link
-                    >
-                </li>
-                <li class="nav-item" >
-                    <router-link
-                        
-                        class="nav-link"
-                        >Logout</router-link
                     >
                 </li>
                 <li class="nav-item">
@@ -70,5 +62,20 @@
 <div class="container mt-3">
     <router-view></router-view>
 </div>
-
+<script>
+    export default {
+        name: "home",
+        data() {
+            return {
+                user: null
+            };
+        },
+        mounted() {
+            axios.get("/api/user").then(res => {
+                this.user = res.data;
+            });
+        },
+        
+    };
+    </script>    
 @endsection

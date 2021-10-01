@@ -2009,6 +2009,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "home",
   data: function data() {
@@ -2018,8 +2023,25 @@ __webpack_require__.r(__webpack_exports__);
       user: null
     };
   },
-  mounted: function mounted() {},
-  methods: {}
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get("/api/user").then(function (res) {
+      _this.user = res.data;
+      _this.message = _this.user;
+    });
+  },
+  methods: {
+    logout: function logout() {
+      var _this2 = this;
+
+      axios.post("/api/logout").then(function () {
+        _this2.$router.push({
+          name: "login"
+        });
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2251,7 +2273,7 @@ __webpack_require__.r(__webpack_exports__);
         password: "",
         password_confirmation: ""
       },
-      errors: []
+      message: []
     };
   },
   methods: {
@@ -2261,7 +2283,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/api/register", this.form).then(function () {
         console.log("saved");
       })["catch"](function (error) {
-        _this.errors = error.response.data.errors;
+        _this.message = error.response.data.errors;
       });
     }
   }
@@ -38032,7 +38054,24 @@ var render = function() {
     "div",
     { staticClass: "row" },
     [
-      _vm._m(0),
+      _c("div", { staticClass: "col-12 text-center" }, [
+        _c("h1", { staticClass: "font-weight-bold" }, [
+          _vm._v("\n            Noticias\n            "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.logout()
+                }
+              }
+            },
+            [_vm._v("\n                Logout\n            ")]
+          )
+        ])
+      ]),
       _vm._v(" "),
       _vm.message != ""
         ? _c("div", { staticClass: "col-12" }, [
@@ -38045,7 +38084,7 @@ var render = function() {
               [
                 _c("strong", [_vm._v(_vm._s(_vm.message))]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(0)
               ]
             )
           ])
@@ -38087,14 +38126,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 text-center" }, [
-      _c("h1", { staticClass: "font-weight-bold" }, [_vm._v("Noticias")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -38366,7 +38397,7 @@ var render = function() {
             _vm._v("\n                    Registrar Usuario\n                ")
           ]),
           _vm._v(" "),
-          _vm.errors != ""
+          _vm.message != ""
             ? _c(
                 "div",
                 {
@@ -38375,7 +38406,7 @@ var render = function() {
                   attrs: { role: "alert" }
                 },
                 [
-                  _c("strong", [_vm._v(_vm._s(_vm.errors))]),
+                  _c("strong", [_vm._v(_vm._s(_vm.message))]),
                   _vm._v(" "),
                   _vm._m(0)
                 ]
@@ -54382,11 +54413,29 @@ __webpack_require__.r(__webpack_exports__);
   }, {
     name: "home",
     path: "/",
-    component: _components_Home_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    component: _components_Home_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    beforeEnter: function beforeEnter(to, form, next) {
+      axios.get("/api/athenticated").then(function () {
+        next();
+      })["catch"](function () {
+        return next({
+          name: "login"
+        });
+      });
+    }
   }, {
     name: "favoritos",
     path: "/favoritos",
-    component: _components_Favoritos_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    component: _components_Favoritos_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    beforeEnter: function beforeEnter(to, form, next) {
+      axios.get("/api/athenticated").then(function () {
+        next();
+      })["catch"](function () {
+        return next({
+          name: "login"
+        });
+      });
+    }
   }, {
     name: "login",
     path: "/login",

@@ -9,9 +9,9 @@
                     <div
                         class="alert alert-warning alert-dismissible fade show"
                         role="alert"
-                        v-if="errors != ''"
+                        v-if="message != ''"
                     >
-                        <strong>{{ errors }}</strong>
+                        <strong>{{ message }}</strong>
                         <button
                             type="button"
                             class="close"
@@ -80,7 +80,7 @@ export default {
                 password: "",
                 password_confirmation: ""
             },
-            errors: []
+            message: []
         };
     },
     methods: {
@@ -91,7 +91,7 @@ export default {
                     console.log("saved");
                 })
                 .catch(error => {
-                    this.errors = error.response.data.errors;
+                    this.message = error.response.data.errors;
                 });
         }
     }

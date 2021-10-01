@@ -1,7 +1,12 @@
 <template>
     <div class="row">
         <div class="col-12 text-center">
-            <h1 class="font-weight-bold">Noticias</h1>
+            <h1 class="font-weight-bold">
+                Noticias
+                <button @click.prevent="logout()" class="btn btn-primary">
+                    Logout
+                </button>
+            </h1>
         </div>
 
         <div class="col-12" v-if="message != ''">
@@ -48,7 +53,18 @@ export default {
             user: null
         };
     },
-    mounted() {},
-    methods: {}
+    mounted() {
+        axios.get("/api/user").then(res => {
+            this.user = res.data;
+            this.message = this.user;
+        });
+    },
+    methods: {
+        logout() {
+            axios.post("/api/logout").then(() => {
+                this.$router.push({ name: "login" });
+            });
+        }
+    }
 };
 </script>
